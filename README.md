@@ -1,7 +1,13 @@
 # EnSensed-Website
 Website link: https://csi-annotation.web.app/
+
+
 #Project structure
+
+
 ##index.html
+
+
 Basic homepage
 ##signin.html*
 Sign in page for registered users 
