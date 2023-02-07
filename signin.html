@@ -1,0 +1,96 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="main1.css">
+
+  </head>
+  <nav class='main hList inactive'>
+    <div class="tab"><a href="index.html" style="color:black">Home</a></div>
+    <div class="tab active" id="login" ><a href="signin.html" style="color:black">Log In</a></div>
+    <div class="tab"><a href="about.html" style="color:black">About</a></div>
+    <div class="tab"><a href="people.html" style="color:black">People</a></div>
+    
+  </nav>
+  <div>
+  <page id="home">
+    <span class="pagetag">#LOGIN</span>
+    <section class="header">
+   
+      <!-- <div class='logo'></div> -->
+    </section>
+    <section id="grid_wrapper" class="init">    
+    <div id="content_wrapper" class='inactive'>
+        
+    </section>    
+  </div>
+
+    <div style="height: 55%;
+        width: 60%;
+        background-color: rgba(255, 255, 255, 0.068);
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        border-radius: 10px;
+        backdrop-filter: blur(15px);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 40px rgba(8, 7, 16, 0.822);
+        padding: 50px 35px;">
+            <h3>Sign In</h3>
+        
+            <label for="username">Username</label>
+            <input type="text" placeholder="Email" id="username">
+        
+            <label for="password">Password</label>
+            <input type="password" placeholder="Password" id="password">
+        <br><br>
+            <input type="submit" value="Log In" id="signIn" style="background-color:white;color:black;border-radius:35px" >
+            <div class="social">
+        </div>
+        <div class="fb" style="width:100%;color:white;color:white"><i class="fab fa-facebook"></i><a href="signup.html" style="color:white">Don't have an account? Sign Up.</a> </div>
+
+     
+    </div>
+    
+
+  <div id="footer">
+    <br><span style="display:block;font-size:0.9em;line-height:55px;"><span style="display:inline-block;">&copy; <span style="font-family:'Titillium Web';font-weight:900;letter-spacing:0.06em">By Pragma Kar</span>  2022</span></span>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+      <script src="main1.js" type="text/javascript"></script>
+      <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+        import { getDatabase } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+        //copy and paste you firebase app configs here
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database=getDatabase(app);
+        const auth = getAuth();
+        signIn.addEventListener('click',(e)=>{
+            var email=document.getElementById('username').value;
+            var password=document.getElementById('password').value;
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+              
+                    
+                    const user = userCredential.user;
+                    window.location = 'viewFast.html'+'?User='+email+"#";
+        
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    alert(errorMessage)
+                });;
+        });
+
+    </script>
+  </html>

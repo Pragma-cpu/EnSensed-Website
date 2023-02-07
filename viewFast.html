@@ -1,0 +1,331 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="main1.css">
+    <link rel="stylesheet" href="radio.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <nav class='main hList inactive'>
+    <div class="tab"><a href="index.html" style="color:black">Home</a></div>
+    <div class="tab " id="login" ><a id="logout" href="signin.html" style="color:black">Log Out</a></div>
+    <div class="tab"><a href="about.html" style="color:black">About</a></div>
+    <div class="tab"><a href="people.html" style="color:black">People</a></div>
+    
+  </nav>
+ 
+  <div>
+  <page id="home">
+    <!-- <span class="pagetag">#LOGIN</span> -->
+    <div class="flex-container"  style=" box-shadow: 0 4px 4px 0 rgb(21, 69, 105), 0 8px 12px 6px rgba(0, 255, 255, 0.966);position: absolute;right: 55;top:15%;width: 30vw; height: 50px;background-color: rgba(20, 19, 19, 0.425);border-radius: 20px 10px;text-align: center;">
+      <div class="welcome-message">
+        
+        <p id="userID" style="letter-spacing: 2px; font-family: 'Lato', sans-serif;color:rgb(2, 238, 255);"></p><br/>
+        
+        
+        
+        <p><br><br></p>
+        <p id="details" style="letter-spacing: 2px; font-family: 'Lato', sans-serif;color:rgb(219, 213, 213);text-align: left;"></p><br/>
+        <p id="annted"  style="letter-spacing: 2px; font-family: 'Lato', sans-serif;color:rgb(219, 213, 213);text-align: left;"></p><br/>
+        <p id="repeat"  style="letter-spacing: 2px; font-family: 'Lato', sans-serif;color:rgb(255, 189, 209);text-align: left;"></p><br/>
+
+        <p id="currVid"  style="letter-spacing: 2px; font-family: 'Lato', sans-serif;color:rgb(219, 213, 213);text-align: left;"></p><br/>
+        <p id="buttonList" ></p><br/>
+      </div>
+     
+      </div>
+      
+    <section class="header">
+     
+      <!-- <div class='logo'></div> -->
+      
+    
+    </section>
+    
+    <!-- <section id="grid_wrapper" class="init">    
+    <div id="content_wrapper" class='inactive'>
+     
+    </section>     -->
+   
+  </div>
+ 
+<div style="height: 70%;
+width: 60%;
+background-color: rgba(255, 255, 255, 0.021);
+position: absolute;
+transform: translate(-50%, -50%);
+top: 43%;
+left: 32%;
+border-radius: 10px;
+backdrop-filter: blur(15px);
+border: 2px solid rgba(255, 255, 255, 0.1);
+box-shadow: 0 0 40px rgba(8, 7, 16, 0.822);
+padding: 50px 35px;text-align:center"> 
+
+
+
+<div id="vidDisp"></div>
+<h3>IS THE PERSON ENGAGED?
+</h3> 
+</div >
+<div class="yes_no_container" style="height: 5%;
+width: 30%;top: 82%;text-align:center;display: flex; justify-content: center; align-items: center;left: 30%;">
+  <input  id="input1" name="radio" type="radio"  />
+  <label for="input1">Yes</label>
+  <input  id="input2" name="radio" type="radio" />
+  <label for="input2">No</label>
+  <span class="slider"></span>
+
+</div>
+<div class="next" style="height: 8%;width: 98%;top: 10%;text-align:center;"> 
+  <table style="width:100%;padding:0%;">
+    <tr>
+      <br>
+      <th style="width:60%"><button id="SaveNext" class="button-17" role="button">Save</button></th>
+      <th style="width:50%"> <button id="Next" class="button-17" role="button"> Start </button></th>
+    </tr>
+  </table>
+  
+ 
+  
+</div>
+<br><br>
+<div id="list">
+ 
+</div>
+  <div id="footer">
+    <br><span style="display:block;font-size:0.9em;line-height:55px;"><span style="display:inline-block;">&copy; <span style="font-family:'Titillium Web';font-weight:900;letter-spacing:0.06em">By Pragma Kar</span>  2022</span></span>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+      <!-- <script src="main1.js" type="text/javascript"></script> -->
+      <script type="module">
+        // Import the functions you need from the SDKs you need
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+        import { getDatabase, ref as ref_database, set, get, child, onValue, remove  } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+        import { getAuth, signInWithEmailAndPassword, signOut  } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+        import { getStorage, ref, listAll, deleteObject  } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
+
+       
+        const firebaseConfig = {
+        //copy and paste you firebase app configs here
+        };
+
+        function shuffle(a) {
+            var j, x, i;
+            for (i = a.length - 1; i > 0; i--) {
+                j = Math.floor(Math.random() * (i + 1));
+                x = a[i];
+                a[i] = a[j];
+                a[j] = x;
+            }
+            return a;
+        }
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database=getDatabase(app);
+        const auth = getAuth();
+        const storage = getStorage();
+        const listRef = ref(storage, '/');
+        const dbRef = ref_database(database);
+        //_________________________________
+        var ctr=0;
+        var avlVideos = [];
+        var url;
+        var x;
+        var sz;
+        var vidId="";
+        var userAnlist=[];
+        var vidpres=[];
+        var remaining=[];
+        var remainingShuf=[];
+        var tableData=[];
+        //_________________________________
+        const usernameShort=(document.location.href).substring((document.location.href).indexOf('=')+1,(document.location.href).lastIndexOf('#'));
+        const userId=usernameShort.replace('@','At').replaceAll('.','Dot');
+        // alert(userId)
+         //_________________________________
+        //firstReload()
+        function onLoad() {
+            //1. welcome user or go to signin
+            document.getElementById("userID").innerHTML="Welcome Back! <br>   "+usernameShort;
+            if(!usernameShort)
+            {
+            window.location = 'signin.html';
+            }
+
+
+
+            //2. Get the list of annotated videos for the current user
+           
+            get(child(dbRef, `/csi-annoation/${userId}/`)).then((snapshot) => {
+                if (snapshot.exists()) {
+                document.getElementById("annted").innerHTML='<i style="font-size:24px" class="fa">&#xf14a;</i> Number of  videos you have annotated: '+snapshot.size;
+                 userAnlist=Object.keys(snapshot.val());
+                
+                } else {
+                    document.getElementById("annted").innerHTML='<i style="font-size:24px" class="fa">&#xf14a;</i> Number of  videos you have annotated: 0';
+            }
+          }).catch((error) => {
+                console.error(error);
+          });
+
+
+          //3. Get the list of videos available for annotation
+          get(child(dbRef, `/videoPresent/`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                vidpres=Object.keys(snapshot.val());
+                // console.log(userAnlist, vidpres);
+                sz=snapshot.size;
+                document.getElementById('details').innerHTML = '<i style="font-size:24px" class="fa">&#xf14a;</i> Number of videos left: '+sz+' <br>';
+                remaining = vidpres.filter(
+                function(i) {
+                    return this.indexOf(i) < 0;
+                },
+                userAnlist
+            );
+
+            // console.log(vidpres.length, remaining.length);
+            remainingShuf=shuffle(remaining);
+            document.getElementById("buttonList").innerHTML = '';
+            for(let i=0;i<1;i++)
+            {
+                var removeBttn = document.createElement("BUTTON")
+                removeBttn.title=remainingShuf[i];
+                removeBttn.id=remainingShuf[i];
+                removeBttn.innerHTML=remainingShuf[i].replace(".mp4","").charAt(0)+remainingShuf[i].replace(".mp4","").charAt(remainingShuf[i].replace(".mp4","").indexOf("_")+1)+remainingShuf[i].replace(".mp4","").charAt(remainingShuf[i].replace(".mp4","").length-2);
+                removeBttn.className="removeBttnClass";
+                removeBttn.addEventListener('click',(e)=>{    
+                    document.getElementById("SaveNext").disabled = false;        
+                    document.getElementById('vidDisp').innerHTML= '<video width="100%" height="100%" controls autoplay src="'+"https://firebasestorage.googleapis.com/v0/b/csi-annotation.appspot.com/o/"+remainingShuf[i]+".mp4?alt=media"+'">Browser not supported </video>';
+                    console.log(document.getElementById('vidDisp').innerHTML)
+                    var titleB=(document.getElementById('vidDisp').innerHTML).replace('<video width="100%" height="100%" controls="" autoplay="" src="https://firebasestorage.googleapis.com/v0/b/csi-annotation.appspot.com/o/','').replace('.mp4?alt=media">Browser not supported </video>','')
+                    console.log(titleB)
+                    let button = document.getElementById(titleB);
+                    button.disabled=true;
+
+                    // removeBttn.hidden=true;
+                    // console.log(removeBttn.val())
+
+
+                    input1.addEventListener('click',(e)=>{
+                    vidId=remainingShuf[i];
+                    set(ref_database(database, "csi-annoation/"+userId+"/"+vidId), {
+                    annotation: 1,
+
+
+                    });
+                });
+
+                input2.addEventListener('click',(e)=>{
+                    vidId=remainingShuf[i];
+                    set(ref_database(database, "csi-annoation/"+userId+"/"+vidId), {
+                    annotation: 0,
+                
+
+                    });
+                });
+
+                SaveNext.addEventListener('click',(e)=>{
+
+
+                    if(!document.getElementById("input1").checked & !document.getElementById("input2").checked){
+                        document.getElementById("repeat").innerHTML='';
+                    }
+                    else{
+                      document.getElementById("repeat").innerHTML='Video annotated! Please Select Next.';
+                        var countNow=0;
+                        // vidId=(document.getElementById('currVid').innerHTML).replace('You are currently annotating: ','').replace('.mp4','');
+                        const dbRef = ref_database(database);
+                        get(child(dbRef, `/videoCount/${vidId}/count/`)).then((snapshot) => {
+                            if (snapshot.exists()) {
+                                countNow=snapshot.val();
+                                console.log(countNow+1)
+                                set(ref_database(database, "videoCount/"+vidId), {
+                                count: countNow+1,
+                                });
+
+                                
+                                //Increase value if more than 3 annotations are needed per video
+                                if(snapshot.val()+1>=3){
+                                //Delete from videoPresent
+                                
+                                const tasksRef = ref_database(database, "videoPresent/"+vidId);
+
+                                remove(tasksRef).then(() => {
+                                    console.log(vidId+" location removed");
+                                });
+
+                                }
+                            } else {
+                                console.log("No data available");
+                            }
+                        }).catch((error) => {
+                            console.error(error);
+                        });
+
+                        
+                        document.getElementById("SaveNext").disabled = true;
+                        // document.getElementById("input1").checked=false;
+                        // document.getElementById("input2").checked=false;
+                        document.getElementById("input1").disabled = true;
+                        document.getElementById("input2").disabled = true;
+
+                        // location.reload();
+                    }
+
+
+
+});
+
+                });
+                document.getElementById("buttonList").appendChild(removeBttn);
+               
+                // console.log(remainingShuf[i], "https://firebasestorage.googleapis.com/v0/b/csi-annotation.appspot.com/o/"+remainingShuf[i]+".mp4?alt=media");
+            }
+           
+            
+    
+            } else {
+              console.log("No data available");
+            }
+          }).catch((error) => {
+            console.error(error);
+          });
+
+
+
+
+
+
+
+        }
+        
+      
+        
+      Next.addEventListener('click',(e)=>{
+        Next.innerHTML="Find Next Video";
+        document.getElementById("repeat").innerHTML='';
+        document.getElementById("input1").disabled = false;
+        document.getElementById("input2").disabled = false;
+        onLoad();
+        
+      }); 
+
+
+       logout.addEventListener('click',(e)=>{
+        const auth = getAuth();
+          signOut(auth).then(() => {
+            alert('logged out succesfully');
+          }).catch((error) => {
+            // An error happened.
+          });
+
+
+
+
+
+       });
+
+    </script>
+  </html>
