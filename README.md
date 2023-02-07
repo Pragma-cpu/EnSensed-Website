@@ -22,3 +22,29 @@ Displays the naems of the team members.
 (*) Please add your firebase config details (under project overview) to the .html files. 
 
 
+# Backend structure
+* annotatorDetails  
+&ensp; <user_email>  
+&ensp;&ensp; age  
+&ensp;&ensp; country  
+&ensp;&ensp; gender  
+&ensp;&ensp; profession  
+  
+* csi-annotation  
+&ensp; <user_email>  
+&ensp; &ensp; <video_name>  
+&ensp;&ensp; &ensp; annotation: 0/1 
+
+* videoCount  
+&ensp; <video_name>  
+&ensp; &ensp; count: 0/1/2/3  (if 3 videoPresent-><video_name> is removed )
+
+* videoPresent 
+&ensp; <video_name>  
+&ensp; &ensp; present: 1 (iniial)
+
+
+  
+
+
+  
